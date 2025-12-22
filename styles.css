@@ -575,6 +575,15 @@ section {
   margin-top: 24px;
 }
 
+.footer__bottom a {
+  color: var(--gold-500);
+  text-decoration: underline;
+}
+
+.footer__bottom a:hover {
+  color: var(--gold-700);
+}
+
 .floating-bar {
   position: fixed;
   bottom: 18px;
