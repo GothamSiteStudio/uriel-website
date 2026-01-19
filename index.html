@@ -20,6 +20,7 @@
     <link rel="apple-touch-icon" href="images/favicon-32.png" />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">דלג לתוכן המרכזי</a>
     <div class="top-strip">
       <div class="container top-strip__content">
         <span>חולון | שירות בכל הארץ | פגישה במשרד או אונליין</span>
@@ -54,7 +55,7 @@
       </div>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="hero" id="home">
         <div class="container hero__grid">
           <div class="hero__content reveal">
@@ -115,6 +116,12 @@
                 <option>מסורבים / BDI</option>
                 <option>הגיל השלישי</option>
               </select>
+              <label class="checkbox-row" for="hero-terms">
+                <input id="hero-terms" type="checkbox" name="terms" required />
+                <span>
+                  קראתי ואני מסכים/ה ל<a href="privacy.html">מדיניות הפרטיות</a>
+                </span>
+              </label>
               <button class="btn btn--primary btn--block" type="submit">תאמו ייעוץ ראשוני</button>
               <p class="form-note" aria-live="polite"></p>
               <p class="form-disclaimer">
@@ -460,6 +467,12 @@
               <input id="contact-phone" name="phone" type="tel" required />
               <label for="contact-message">איך נוכל לעזור?</label>
               <textarea id="contact-message" name="message" rows="4"></textarea>
+              <label class="checkbox-row" for="contact-terms">
+                <input id="contact-terms" type="checkbox" name="terms" required />
+                <span>
+                  קראתי ואני מסכים/ה ל<a href="privacy.html">מדיניות הפרטיות</a>
+                </span>
+              </label>
               <button class="btn btn--primary btn--block" type="submit">שלחו פרטים</button>
               <p class="form-note" aria-live="polite"></p>
             </form>
@@ -473,6 +486,10 @@
         <div>
           <img class="footer__logo" src="images/logo.png" alt="יוחננוב משכנתאות" />
           <p>יוחננוב משכנתאות - ייעוץ פרטי עם תוצאות מוכחות.</p>
+          <div class="a11y-tools" aria-label="כלי נגישות">
+            <button type="button" data-a11y-toggle="contrast" aria-pressed="false">ניגודיות גבוהה</button>
+            <button type="button" data-a11y-toggle="font" aria-pressed="false">הגדלת טקסט</button>
+          </div>
         </div>
         <div class="footer__links">
           <a href="#tools">מרכז כלים</a>
@@ -480,13 +497,18 @@
           <a href="#faq">שאלות נפוצות</a>
           <a href="calculator.html">מחשבון משכנתא</a>
         </div>
+        <div class="footer__legal">
+          <a href="terms.html">תקנון</a>
+          <a href="privacy.html">מדיניות פרטיות</a>
+          <a href="accessibility.html">הצהרת נגישות</a>
+        </div>
         <div class="footer__contact">
           <a href="tel:+972584786991">058-4786991</a>
           <a href="mailto:uriel660@gmail.com">uriel660@gmail.com</a>
           <span>חולון</span>
         </div>
       </div>
-      <div class="footer__bottom">© 2025 יוחננוב משכנתאות — <a href="https://gothamsitestudio.com" target="_blank" rel="noopener noreferrer">Gotham Site Studio</a></div>
+      <div class="footer__bottom">© 2026 יוחננוב משכנתאות — <a href="https://gothamsitestudio.com" target="_blank" rel="noopener noreferrer">Gotham Site Studio</a></div>
     </footer>
 
     <div class="floating-bar">
@@ -511,13 +533,28 @@
           <input id="popup-name" name="name" type="text" required />
           <label for="popup-phone">טלפון נייד</label>
           <input id="popup-phone" name="phone" type="tel" required />
-          <label class="checkbox-row">
-            <input type="checkbox" required />
-            מאשר/ת שליחת פרטים לקבלת ייעוץ
+          <label class="checkbox-row" for="popup-terms">
+            <input id="popup-terms" type="checkbox" name="terms" required />
+            <span>
+              קראתי ואני מסכים/ה ל<a href="privacy.html">מדיניות הפרטיות</a>
+            </span>
           </label>
           <button class="btn btn--primary btn--block" type="submit">תחזרו אליי</button>
           <p class="form-note" aria-live="polite"></p>
         </form>
+      </div>
+    </div>
+
+    <div class="cookie-banner" data-cookie-banner hidden>
+      <div class="container cookie-banner__content" role="region" aria-label="הודעת קוקיז">
+        <p>
+          האתר משתמש בקוקיז לצורך מדידה ושיפור חוויית השימוש. ניתן לאשר או לדחות.
+          לפרטים נוספים: <a href="privacy.html">מדיניות פרטיות</a>.
+        </p>
+        <div class="cookie-banner__actions">
+          <button type="button" class="btn btn--primary" data-cookie-action="accept">אני מסכים/ה</button>
+          <button type="button" class="btn btn--ghost" data-cookie-action="reject">דוחה</button>
+        </div>
       </div>
     </div>
 
