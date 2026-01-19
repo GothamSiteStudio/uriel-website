@@ -14,12 +14,14 @@
       href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;600;700&family=Heebo:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="images/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="icon" href="images/favicon-16.png" sizes="16x16" type="image/png" />
     <link rel="apple-touch-icon" href="images/favicon-32.png" />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">דלג לתוכן המרכזי</a>
     <div class="top-strip">
       <div class="container top-strip__content">
         <span>חולון | שירות בכל הארץ | פגישה במשרד או אונליין</span>
@@ -53,7 +55,7 @@
       </div>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="hero">
         <div class="container hero__grid">
           <div class="hero__content reveal">
@@ -80,23 +82,73 @@
         </div>
       </section>
 
-      <section class="section--light" id="calculator-slot">
+      <section class="section--light calculator-section" id="calculator-slot">
         <div class="container">
           <div class="section-title reveal">
-            <h2>כאן יוטמע המחשבון הקיים</h2>
-            <p>
-              הטמיעו כאן את המחשבון שברשותכם באמצעות iframe או קובץ סקריפט.
-              המבנה מוכן - רק להוסיף את המחשבון.
-            </p>
+            <h2>מחשבון משכנתא מתקדם</h2>
+            <p>הכניסו את פרטי המסלולים כדי לקבל החזר חודשי, סיכום תמהיל ולוח סילוקין מפורט.</p>
           </div>
-          <div class="card reveal" style="min-height: 320px">
-            <p>
-              אזור הטמעה:
-              <strong>תוכן המחשבון יופיע כאן.</strong>
-            </p>
-            <p>
-              ניתן להציב את הקוד בתוך אלמנט זה או להחליף אותו במכלול המחשבון הקיים.
-            </p>
+          <div class="calculator-container">
+            <div class="calculator-wrapper reveal">
+              <div class="calculator-header">
+                <div>
+                  <p class="section-lead">התחילו עם מסלול אחד לדוגמה וחישבו את המשכנתא. אפשר להגדיר שיטת החזר, מדד ושינוי ריבית עתידי לכל מסלול.</p>
+                  <ul class="calc-guidelines">
+                    <li>שפיצר: תשלום חודשי קבוע לאורך התקופה.</li>
+                    <li>קרן שווה: תשלום חודשי יורד.</li>
+                    <li>בוליט: תשלום ריבית חודשי וקרן בסוף התקופה.</li>
+                  </ul>
+                </div>
+                <div class="calculator-callout">
+                  <div class="callout-badge"><i class="fas fa-universal-access"></i> AA</div>
+                  <p>המחשבון מותאם לנגישות ומציג מספרים עם מפרידי אלפים כדי למנוע טעויות קריאה.</p>
+                  <p class="disclaimer"><strong>שימו לב:</strong> התוצאות הן סימולציה בלבד ואינן מהוות ייעוץ מחייב.</p>
+                </div>
+              </div>
+
+              <div id="calc-messages" class="calc-messages" aria-live="polite"></div>
+
+              <div id="tracks-list" class="tracks-list" aria-live="polite"></div>
+
+              <div class="calculator-actions">
+                <button class="btn-calc" type="button" onclick="calculateAll()">
+                  <i class="fas fa-calculator"></i> חשב משכנתא
+                </button>
+              </div>
+            </div>
+
+            <div id="results-area" class="results-shell" aria-live="polite">
+              <h3><i class="fas fa-chart-pie"></i> סיכום המשכנתא</h3>
+              <div id="compliance-note" class="compliance-note"></div>
+              <div class="summary-grid">
+                <div class="summary-item">
+                  <i class="fas fa-calendar-check"></i>
+                  <h4>החזר חודשי ראשון</h4>
+                  <div class="value" id="first-payment">₪0</div>
+                </div>
+                <div class="summary-item">
+                  <i class="fas fa-arrow-up"></i>
+                  <h4>החזר חודשי מקסימלי</h4>
+                  <div class="value" id="max-payment">₪0</div>
+                </div>
+                <div class="summary-item">
+                  <i class="fas fa-money-bill-wave"></i>
+                  <h4>סה״כ תשלומים</h4>
+                  <div class="value" id="total-payment">₪0</div>
+                </div>
+                <div class="summary-item highlight">
+                  <i class="fas fa-percentage"></i>
+                  <h4>סה״כ ריבית</h4>
+                  <div class="value" id="total-interest">₪0</div>
+                </div>
+                <div class="summary-item">
+                  <i class="fas fa-chart-area"></i>
+                  <h4>תוספת מדד משוערת</h4>
+                  <div class="value" id="total-inflation">₪0</div>
+                </div>
+              </div>
+              <div id="tracks-results" class="tracks-results"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -105,8 +157,12 @@
     <footer class="site-footer">
       <div class="container footer__content">
         <div>
-        <div class="footer__bottom">© 2025 יוחננוב משכנתאות — <a href="https://gothamsitestudio.com" target="_blank" rel="noopener noreferrer">Gotham Site Studio</a></div>
+          <img class="footer__logo" src="images/logo.png" alt="יוחננוב משכנתאות" />
           <p>יוחננוב משכנתאות - ייעוץ פרטי עם תוצאות מוכחות.</p>
+          <div class="a11y-tools" aria-label="כלי נגישות">
+            <button type="button" data-a11y-toggle="contrast" aria-pressed="false">ניגודיות גבוהה</button>
+            <button type="button" data-a11y-toggle="font" aria-pressed="false">הגדלת טקסט</button>
+          </div>
         </div>
         <div class="footer__links">
           <a href="index.html#tools">מרכז כלים</a>
@@ -114,13 +170,18 @@
           <a href="index.html#faq">שאלות נפוצות</a>
           <a href="index.html#contact">צור קשר</a>
         </div>
+        <div class="footer__legal">
+          <a href="terms.html">תקנון</a>
+          <a href="privacy.html">מדיניות פרטיות</a>
+          <a href="accessibility.html">הצהרת נגישות</a>
+        </div>
         <div class="footer__contact">
           <a href="tel:+972584786991">058-4786991</a>
           <a href="mailto:uriel660@gmail.com">uriel660@gmail.com</a>
           <span>חולון</span>
         </div>
       </div>
-      <div class="footer__bottom">© 2025 יוחננוב משכנתאות — נבנה ע"י <a href="https://gothamsitestudio.com" target="_blank" rel="noopener noreferrer">gothamsitestuido</a></div>
+      <div class="footer__bottom">© 2025 יוחננוב משכנתאות — <a href="https://gothamsitestudio.com" target="_blank" rel="noopener noreferrer">Gotham Site Studio</a></div>
     </footer>
 
     <div class="floating-bar">
@@ -137,6 +198,19 @@
         כדי ליהנות מחוויית האתר המלאה מומלץ לאפשר JavaScript.
       </div>
     </noscript>
+
+    <div class="cookie-banner" data-cookie-banner hidden>
+      <div class="container cookie-banner__content" role="region" aria-label="הודעת קוקיז">
+        <p>
+          האתר משתמש בקוקיז לצורך מדידה ושיפור חוויית השימוש. ניתן לאשר או לדחות.
+          לפרטים נוספים: <a href="privacy.html">מדיניות פרטיות</a>.
+        </p>
+        <div class="cookie-banner__actions">
+          <button type="button" class="btn btn--primary" data-cookie-action="accept">אני מסכים/ה</button>
+          <button type="button" class="btn btn--ghost" data-cookie-action="reject">דוחה</button>
+        </div>
+      </div>
+    </div>
 
     <script src="scripts.js"></script>
   </body>
