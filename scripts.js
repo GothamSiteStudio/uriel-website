@@ -288,7 +288,6 @@ const initMortgageCalculator = () => {
     "variable-7-unlinked": "משתנה כל 7 שנים לא צמודה",
     "variable-10-linked": "משתנה כל 10 שנים צמודה מדד",
     "variable-10-unlinked": "משתנה כל 10 שנים לא צמודה",
-    bridge: "בוליט / גישור",
   };
 
   const defaultTracks = [
