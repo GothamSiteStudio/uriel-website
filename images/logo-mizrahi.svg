@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" role="img" aria-label="מזרחי-טפחות">
+  <defs>
+    <style>
+      .bg { fill: #f4f1ea; }
+      .stroke { fill: none; stroke: #c9a85e; stroke-width: 3; }
+      .text { fill: #2a2622; font-family: 'Heebo', Arial, sans-serif; font-size: 22px; font-weight: 700; }
+    </style>
+  </defs>
+  <rect class="bg" x="4" y="4" width="232" height="112" rx="16" />
+  <rect class="stroke" x="4" y="4" width="232" height="112" rx="16" />
+  <text class="text" x="120" y="68" text-anchor="middle">מזרחי-טפחות</text>
+</svg>

@@ -609,8 +609,24 @@ body.a11y-contrast .site-footer {
   flex-wrap: wrap;
   gap: 16px;
   justify-content: center;
+  align-items: center;
   color: #5f574f;
   font-weight: 600;
+}
+
+.trust__logo {
+  height: 40px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  filter: grayscale(12%);
+  opacity: 0.92;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.trust__logo:hover {
+  opacity: 1;
+  filter: grayscale(0%);
 }
 
 .section--light {
