@@ -45,6 +45,9 @@
           <span class="nav-toggle__bar"></span>
         </button>
         <nav class="site-nav" id="site-nav">
+          <button class="nav-close" type="button" aria-label="סגור תפריט" data-nav-close>
+            ×
+          </button>
           <a href="index.html#tools">מרכז כלים</a>
           <a href="index.html#services">מסלולי מומחיות</a>
           <a href="index.html#process">איך זה עובד</a>
@@ -52,21 +55,25 @@
           <a href="index.html#contact">צור קשר</a>
           <a class="btn btn--primary" href="calculator.html">מחשבון משכנתא</a>
         </nav>
+        <div class="nav-backdrop" data-nav-close></div>
       </div>
     </header>
 
     <main id="main-content" tabindex="-1">
       <section class="hero">
         <div class="container hero__grid">
+          <div class="hero__image reveal">
+            <img src="images/services-consultation.jpeg" alt="מחשבון משכנתא מקצועי" />
+          </div>
           <div class="hero__content reveal">
             <span class="pill">מחשבון מתקדם ומקצועי</span>
-            <h1>מחשבון משכנתא של יוחננוב</h1>
+            <h1>מחשבון משכנתא חכם — שקיפות מלאה במספרים</h1>
             <p class="hero__subtitle">
-              בדיקה חכמה של החזר חודשי, לוח סילוקין והשוואה בין מסלולים - הכל במקום אחד.
+              בדקו החזר חודשי, לוח סילוקין והשוואה בין מסלולים — בצורה ברורה ונוחה.
             </p>
             <div class="hero__actions">
-              <a class="btn btn--primary" href="#calculator-slot">לצפייה במחשבון</a>
-              <a class="btn btn--ghost" href="index.html#contact">רוצים ליווי אישי</a>
+              <a class="btn btn--primary" href="#calculator-slot">להתחיל חישוב</a>
+              <a class="btn btn--ghost" href="index.html#contact">ליווי אישי לתמהיל</a>
             </div>
           </div>
           <div class="hero__card reveal" style="--delay: 0.15s">
@@ -77,7 +84,7 @@
               <li>גרף סילוקין מפורט</li>
               <li>התאמה לתמהיל אישי</li>
             </ul>
-            <a class="btn btn--primary btn--block" href="index.html#contact">דברו איתי</a>
+            <a class="btn btn--primary btn--block" href="index.html#contact">קבלו ליווי אישי</a>
           </div>
         </div>
       </section>
@@ -86,13 +93,13 @@
         <div class="container">
           <div class="section-title reveal">
             <h2>מחשבון משכנתא מתקדם</h2>
-            <p>הכניסו את פרטי המסלולים כדי לקבל החזר חודשי, סיכום תמהיל ולוח סילוקין מפורט.</p>
+            <p>מלאו פרטי מסלולים לקבלת החזר חודשי, סיכום תמהיל ולוח סילוקין מפורט.</p>
           </div>
           <div class="calculator-container">
             <div class="calculator-wrapper reveal">
               <div class="calculator-header">
                 <div>
-                  <p class="section-lead">התחילו עם מסלול אחד לדוגמה וחישבו את המשכנתא. אפשר להגדיר שיטת החזר, מדד ושינוי ריבית עתידי לכל מסלול.</p>
+                  <p class="section-lead">התחילו עם מסלול אחד לדוגמה והוסיפו מסלולים נוספים לפי הצורך. ניתן להגדיר שיטת החזר, מדד ושינוי ריבית עתידי לכל מסלול.</p>
                   <ul class="calc-guidelines">
                     <li>שפיצר: תשלום חודשי קבוע לאורך התקופה.</li>
                     <li>קרן שווה: תשלום חודשי יורד.</li>
@@ -112,13 +119,13 @@
 
               <div class="calculator-actions">
                 <button class="btn-calc" type="button" onclick="calculateAll()">
-                  <i class="fas fa-calculator"></i> חשב משכנתא
+                  <i class="fas fa-calculator"></i> חשבו תמהיל
                 </button>
               </div>
             </div>
 
             <div id="results-area" class="results-shell" aria-live="polite">
-              <h3><i class="fas fa-chart-pie"></i> סיכום המשכנתא</h3>
+              <h3><i class="fas fa-chart-pie"></i> סיכום התמהיל</h3>
               <div id="compliance-note" class="compliance-note"></div>
               <div class="summary-grid">
                 <div class="summary-item">

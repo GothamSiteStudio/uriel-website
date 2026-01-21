@@ -1,28 +1,67 @@
 const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
+const navBackdrop = document.querySelector(".nav-backdrop");
+const navCloseButtons = document.querySelectorAll("[data-nav-close]");
 
 if (navToggle && siteNav) {
-  const toggleNav = () => {
-    const isOpen = siteNav.classList.toggle("is-open");
-    navToggle.setAttribute("aria-expanded", String(isOpen));
-    document.body.classList.toggle("no-scroll", isOpen);
+  const navMedia = window.matchMedia("(max-width: 980px)");
+
+  const updateNavA11y = () => {
+    if (navMedia.matches) {
+      siteNav.setAttribute("aria-hidden", String(!siteNav.classList.contains("is-open")));
+    } else {
+      siteNav.removeAttribute("aria-hidden");
+      document.body.classList.remove("no-scroll");
+      navBackdrop?.classList.remove("is-visible");
+    }
   };
 
-  navToggle.addEventListener("click", toggleNav);
+  const setNavState = (isOpen) => {
+    siteNav.classList.toggle("is-open", isOpen);
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+    document.body.classList.toggle("no-scroll", isOpen);
+    navBackdrop?.classList.toggle("is-visible", isOpen);
+    updateNavA11y();
+
+    if (isOpen) {
+      siteNav.querySelector("a")?.focus?.();
+    }
+  };
+
+  navToggle.addEventListener("click", () => {
+    setNavState(!siteNav.classList.contains("is-open"));
+  });
+
+  navCloseButtons.forEach((button) => {
+    button.addEventListener("click", () => setNavState(false));
+  });
+
   siteNav.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
       if (siteNav.classList.contains("is-open")) {
-        toggleNav();
+        setNavState(false);
       }
     });
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && siteNav.classList.contains("is-open")) {
-      toggleNav();
+      setNavState(false);
     }
   });
+
+  if (navMedia.addEventListener) {
+    navMedia.addEventListener("change", updateNavA11y);
+  } else if (navMedia.addListener) {
+    navMedia.addListener(updateNavA11y);
+  }
+
+  updateNavA11y();
 }
+
+document.querySelectorAll("i.fas, i.fa, i.far, i.fab").forEach((icon) => {
+  icon.setAttribute("aria-hidden", "true");
+});
 
 const applyStoredAccessibilityModes = () => {
   const contrastEnabled = localStorage.getItem("a11y_contrast") === "true";
@@ -132,10 +171,30 @@ document.querySelectorAll("[data-lead-form]").forEach((form) => {
 const popup = document.getElementById("lead-popup");
 const popupKey = "yohnanovPopupSeen";
 
-if (popup && !sessionStorage.getItem(popupKey)) {
+if (popup) {
   const dialog = popup.querySelector("[role='dialog']");
   const closeButton = popup.querySelector("[data-popup-close]");
+  const popupTriggers = document.querySelectorAll("[data-popup-trigger]");
+  const pageRegions = [
+    document.querySelector(".top-strip"),
+    document.querySelector(".site-header"),
+    document.querySelector("main"),
+    document.querySelector(".site-footer"),
+    document.querySelector(".floating-bar"),
+  ].filter(Boolean);
   let lastFocusedElement = null;
+
+  const setPageInert = (isInert) => {
+    pageRegions.forEach((region) => {
+      if (isInert) {
+        region.setAttribute("aria-hidden", "true");
+        region.setAttribute("inert", "");
+      } else {
+        region.removeAttribute("aria-hidden");
+        region.removeAttribute("inert");
+      }
+    });
+  };
 
   const getFocusableElements = () => {
     const root = dialog || popup;
@@ -147,10 +206,12 @@ if (popup && !sessionStorage.getItem(popupKey)) {
   };
 
   const openPopup = () => {
+    if (popup.classList.contains("is-visible")) return;
     lastFocusedElement = document.activeElement;
     popup.classList.add("is-visible");
     popup.setAttribute("aria-hidden", "false");
     document.body.classList.add("no-scroll");
+    setPageInert(true);
 
     setTimeout(() => {
       (closeButton || getFocusableElements()[0])?.focus?.();
@@ -161,6 +222,7 @@ if (popup && !sessionStorage.getItem(popupKey)) {
     popup.classList.remove("is-visible");
     popup.setAttribute("aria-hidden", "true");
     document.body.classList.remove("no-scroll");
+    setPageInert(false);
     sessionStorage.setItem(popupKey, "true");
 
     if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
@@ -168,7 +230,14 @@ if (popup && !sessionStorage.getItem(popupKey)) {
     }
   };
 
-  setTimeout(openPopup, 9000);
+  popupTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", (event) => {
+      if (event.currentTarget.tagName === "A") {
+        event.preventDefault();
+      }
+      openPopup();
+    });
+  });
 
   popup.querySelectorAll("[data-popup-close]").forEach((element) => {
     element.addEventListener("click", closePopup);
@@ -249,18 +318,31 @@ const initMortgageCalculator = () => {
     const data = { ...defaults, ...prefill };
     const card = document.createElement("article");
     card.className = "track-card";
-    const uid = `track-${Date.now()}`;
+    const uid = `track-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    const ids = {
+      name: `${uid}-name`,
+      type: `${uid}-type`,
+      amount: `${uid}-amount`,
+      interest: `${uid}-interest`,
+      years: `${uid}-years`,
+      repayment: `${uid}-repayment`,
+      madad: `${uid}-madad`,
+      madadHelp: `${uid}-madad-help`,
+      rateMonths: `${uid}-rate-months`,
+      rateMonthsHelp: `${uid}-rate-months-help`,
+      rateRate: `${uid}-rate-rate`,
+    };
     card.innerHTML = `
       <header class="track-card-header">
         <div>
-          <label class="field-label" for="${uid}">שם המסלול</label>
-          <input id="${uid}" type="text" class="track-name" placeholder="לדוגמה: קבועה לא צמודה" value="${data.name || ""}">
+          <label class="field-label" for="${ids.name}">שם המסלול</label>
+          <input id="${ids.name}" type="text" class="track-name" placeholder="לדוגמה: קבועה לא צמודה" value="${data.name || ""}">
         </div>
       </header>
       <div class="fields-grid">
         <div class="field">
-          <label>סוג מסלול</label>
-          <select class="track-type">
+          <label for="${ids.type}">סוג מסלול</label>
+          <select id="${ids.type}" class="track-type">
             ${Object.entries(trackTypeLabels)
               .map(
                 ([value, label]) =>
@@ -270,42 +352,42 @@ const initMortgageCalculator = () => {
           </select>
         </div>
         <div class="field">
-          <label>סכום המסלול (₪)</label>
-          <input type="text" class="amount" inputmode="decimal" value="${formatInputNumber(data.amount)}">
+          <label for="${ids.amount}">סכום המסלול (₪)</label>
+          <input id="${ids.amount}" type="text" class="amount" inputmode="decimal" value="${formatInputNumber(data.amount)}">
         </div>
         <div class="field">
-          <label>ריבית שנתית (%)</label>
-          <input type="number" class="interest" min="0" step="0.01" inputmode="decimal" value="${data.interest}">
+          <label for="${ids.interest}">ריבית שנתית (%)</label>
+          <input id="${ids.interest}" type="number" class="interest" min="0" step="0.01" inputmode="decimal" value="${data.interest}">
         </div>
         <div class="field">
-          <label>תקופה (שנים)</label>
-          <input type="number" class="years" min="1" max="35" step="0.5" inputmode="decimal" value="${data.years}">
+          <label for="${ids.years}">תקופה (שנים)</label>
+          <input id="${ids.years}" type="number" class="years" min="1" max="35" step="0.5" inputmode="decimal" value="${data.years}">
         </div>
         <div class="field">
-          <label>שיטת החזר</label>
-          <select class="repayment">
+          <label for="${ids.repayment}">שיטת החזר</label>
+          <select id="${ids.repayment}" class="repayment">
             <option value="shpitzer" ${data.repayment === "shpitzer" ? "selected" : ""}>שפיצר (תשלום קבוע)</option>
             <option value="keren" ${data.repayment === "keren" ? "selected" : ""}>קרן שווה (תשלום יורד)</option>
             <option value="bullet" ${data.repayment === "bullet" ? "selected" : ""}>בוליט / בלון</option>
           </select>
         </div>
         <div class="field">
-          <label>מדד שנתי ממוצע (%)</label>
-          <input type="number" class="madad" min="0" step="0.1" inputmode="decimal" value="${data.madad}">
-          <small>0 משמע לא צמוד</small>
+          <label for="${ids.madad}">מדד שנתי ממוצע (%)</label>
+          <input id="${ids.madad}" type="number" class="madad" min="0" step="0.1" inputmode="decimal" value="${data.madad}" aria-describedby="${ids.madadHelp}">
+          <small id="${ids.madadHelp}">0 משמע לא צמוד</small>
         </div>
       </div>
       <details class="advanced">
-        <summary><i class="fas fa-sliders"></i> הגדרות מתקדמות</summary>
+        <summary><i class="fas fa-sliders" aria-hidden="true"></i> הגדרות מתקדמות</summary>
         <div class="advanced-grid">
           <div class="field">
-            <label>שינוי ריבית אחרי (חודשים)</label>
-            <input type="number" class="rate-change-months" min="1" step="1" inputmode="numeric" value="${data.rateChangeMonths}">
-            <small>השאירו ריק אם אין שינוי</small>
+            <label for="${ids.rateMonths}">שינוי ריבית אחרי (חודשים)</label>
+            <input id="${ids.rateMonths}" type="number" class="rate-change-months" min="1" step="1" inputmode="numeric" value="${data.rateChangeMonths}" aria-describedby="${ids.rateMonthsHelp}">
+            <small id="${ids.rateMonthsHelp}">השאירו ריק אם אין שינוי</small>
           </div>
           <div class="field">
-            <label>ריבית חדשה (%)</label>
-            <input type="number" class="rate-change-rate" min="0" step="0.01" inputmode="decimal" value="${data.rateChangeRate}">
+            <label for="${ids.rateRate}">ריבית חדשה (%)</label>
+            <input id="${ids.rateRate}" type="number" class="rate-change-rate" min="0" step="0.01" inputmode="decimal" value="${data.rateChangeRate}">
           </div>
         </div>
       </details>
@@ -494,13 +576,14 @@ const initMortgageCalculator = () => {
     return `
       <div class="table-wrapper">
         <table class="schedule-table">
+          <caption class="sr-only">לוח סילוקין חודשי</caption>
           <thead>
             <tr>
-              <th>חודש</th>
-              <th>תשלום חודשי</th>
-              <th>חלק קרן</th>
-              <th>חלק ריבית</th>
-              <th>יתרה בסוף חודש</th>
+              <th scope="col">חודש</th>
+              <th scope="col">תשלום חודשי</th>
+              <th scope="col">חלק קרן</th>
+              <th scope="col">חלק ריבית</th>
+              <th scope="col">יתרה בסוף חודש</th>
             </tr>
           </thead>
           <tbody>
@@ -549,7 +632,7 @@ const initMortgageCalculator = () => {
           </div>
         </div>
         <details>
-          <summary><i class="fas fa-table"></i> לוח סילוקין מלא</summary>
+          <summary><i class="fas fa-table" aria-hidden="true"></i> לוח סילוקין מלא</summary>
           ${buildScheduleTable(result.schedule)}
         </details>
       `;
@@ -569,7 +652,7 @@ const initMortgageCalculator = () => {
       const list = errors.map((err) => `<li>${err}</li>`).join("");
       messagesEl.innerHTML = `
         <div class="message error">
-          <i class="fas fa-circle-exclamation"></i>
+          <i class="fas fa-circle-exclamation" aria-hidden="true"></i>
           <div><strong>שגיאות קלט:</strong><ul>${list}</ul></div>
         </div>
       `;
@@ -579,7 +662,7 @@ const initMortgageCalculator = () => {
       const list = warnings.map((warning) => `<li>${warning}</li>`).join("");
       complianceEl.innerHTML = `
         <div class="message warning">
-          <i class="fas fa-triangle-exclamation"></i>
+          <i class="fas fa-triangle-exclamation" aria-hidden="true"></i>
           <div><strong>אזהרות משכנתא:</strong><ul>${list}</ul></div>
         </div>
       `;

@@ -44,6 +44,9 @@
           <span class="nav-toggle__bar"></span>
         </button>
         <nav class="site-nav" id="site-nav">
+          <button class="nav-close" type="button" aria-label="סגור תפריט" data-nav-close>
+            ×
+          </button>
           <a href="#tools">מרכז כלים</a>
           <a href="#services">מסלולי מומחיות</a>
           <a href="#process">איך זה עובד</a>
@@ -52,23 +55,27 @@
           <a href="#contact">צור קשר</a>
           <a class="btn btn--primary" href="calculator.html">מחשבון משכנתא</a>
         </nav>
+        <div class="nav-backdrop" data-nav-close></div>
       </div>
     </header>
 
     <main id="main-content" tabindex="-1">
       <section class="hero" id="home">
         <div class="container hero__grid">
+          <div class="hero__image reveal">
+            <img src="images/hero-mortgage-consultant.jpeg" alt="אוריאל יוחננוב - יועץ משכנתאות מקצועי" />
+          </div>
           <div class="hero__content reveal">
-            <span class="pill">יועץ משכנתאות פרטי | סמכות ידע רדיקלית</span>
-            <h1>הבנק אמר לא? אצלנו הכסף מחכה לך.</h1>
+            <span class="pill">יועץ משכנתאות פרטי | מומחה בתיקי מורכבים</span>
+            <h1>משכנתא בטוחה, חכמה ומשתלמת — מהפגישה הראשונה.</h1>
             <p class="hero__subtitle">
-              אוריאל יוחננוב מוביל תהליכי משכנתא חכמים לכל רחבי ארץ הקודש, עם ליווי אישי,
-              שקיפות מלאה וחיסכון שמורגש בכיס. פגישה במשרד בחולון או אונליין לפי הנוחות.
+              אוריאל יוחננוב מוביל תהליכי משכנתא חכמים בכל הארץ, עם ליווי אישי,
+              שקיפות מלאה וחיסכון משמעותי מול הצעות הבנקים. פגישה בחולון או אונליין לפי הנוחות.
             </p>
             <div class="hero__actions">
-              <a class="btn btn--primary" href="#contact">בדיקת זכאות ב-60 שניות</a>
+              <a class="btn btn--primary" href="#contact" data-popup-trigger>בדיקת זכאות מהירה</a>
               <a class="btn btn--ghost" href="https://wa.me/972584786991" target="_blank" rel="noopener">
-                שיחת וואטסאפ מהירה
+                וואטסאפ עם יועץ
               </a>
             </div>
             <ul class="hero__bullets">
@@ -93,21 +100,32 @@
           </div>
           <div class="hero__card reveal" style="--delay: 0.15s">
             <div class="card__header">
-              <h3>בדיקת זכאות ב-60 שניות</h3>
-              <p>השאירו פרטים ונחזור עם תובנות מיידיות.</p>
+              <h3>בדיקת זכאות מהירה</h3>
+              <p>השאירו פרטים ונחזור עם הכוונה ראשונית ותמונה ברורה.</p>
             </div>
             <form class="lead-form" data-lead-form>
-              <label for="hero-name">שם מלא</label>
-              <input id="hero-name" name="name" type="text" placeholder="לדוגמה: מיכל כהן" required />
-              <label for="hero-phone">טלפון נייד</label>
+              <label for="hero-name">שם מלא <span class="required-marker" aria-hidden="true">*</span></label>
+              <input
+                id="hero-name"
+                name="name"
+                type="text"
+                placeholder="לדוגמה: מיכל כהן"
+                autocomplete="name"
+                required
+              />
+              <label for="hero-phone">טלפון נייד <span class="required-marker" aria-hidden="true">*</span></label>
               <input
                 id="hero-phone"
                 name="phone"
                 type="tel"
                 placeholder="05X-XXXXXXX"
+                inputmode="tel"
+                autocomplete="tel"
+                aria-describedby="hero-phone-hint"
                 required
               />
-              <label for="hero-purpose">סוג פנייה</label>
+              <small id="hero-phone-hint" class="field-hint">מספר נייד ישראלי כולל קידומת 05</small>
+              <label for="hero-purpose">סוג פנייה <span class="required-marker" aria-hidden="true">*</span></label>
               <select id="hero-purpose" name="purpose" required>
                 <option value="">בחרו נושא מרכזי</option>
                 <option>דירה ראשונה</option>
@@ -122,7 +140,7 @@
                   קראתי ואני מסכים/ה ל<a href="privacy.html">מדיניות הפרטיות</a>
                 </span>
               </label>
-              <button class="btn btn--primary btn--block" type="submit">תאמו ייעוץ ראשוני</button>
+              <button class="btn btn--primary btn--block" type="submit">קבעו ייעוץ ראשוני</button>
               <p class="form-note" aria-live="polite"></p>
               <p class="form-disclaimer">
                 בלחיצה אתם מאשרים יצירת קשר בהתאם למדיניות הפרטיות.
@@ -203,8 +221,9 @@
       <section class="process" id="process">
         <div class="container">
           <div class="section-title reveal">
+            <img src="images/handshake-agreement.jpeg" alt="תהליך משכנתא מקצועי" class="section-image" />
             <h2>איך זה עובד?</h2>
-            <p>מסלול ברור שמוביל אתכם לשולחן החתימה עם ביטחון מלא.</p>
+            <p>מסלול ברור שמוביל אתכם לחתימה בביטחון ועם תנאים טובים יותר.</p>
           </div>
           <ol class="process__list">
             <li class="process__item reveal">
@@ -250,28 +269,28 @@
         <div class="container">
           <div class="section-title reveal">
             <h2>מרכז הכלים של יוחננוב</h2>
-            <p>פלטפורמת שירות שנותנת ערך עוד לפני שיחת הטלפון הראשונה.</p>
+            <p>כלים פרקטיים שנותנים ערך כבר עכשיו — עוד לפני השיחה הראשונה.</p>
           </div>
           <div class="cards-grid">
             <article class="card reveal">
               <h3>מחשבון משכנתא מתקדם</h3>
-              <p>כולל גרף סילוקין והשוואה בין שפיצר לקרן שווה.</p>
-              <a class="card-link" href="calculator.html">למחשבון המלא</a>
+              <p>כולל לוח סילוקין והשוואה בין שפיצר לקרן שווה.</p>
+              <a class="card-link" href="calculator.html">פתחו את המחשבון</a>
             </article>
             <article class="card reveal" style="--delay: 0.05s">
               <h3>מחשבון מס רכישה</h3>
-              <p>תכנון נכון של ההון העצמי למשקיעים ומשפרי דיור.</p>
-              <a class="card-link" href="#contact">לקבלת הגרסה המלאה</a>
+              <p>הערכת הון עצמי ותכנון חכם למשקיעים ומשפרי דיור.</p>
+              <a class="card-link" href="#contact">קבלו גישה</a>
             </article>
             <article class="card reveal" style="--delay: 0.1s">
               <h3>סימולטור מחיר למשתכן</h3>
               <p>בדיקת הון עצמי לפי שווי שוק ולא מחיר חוזה.</p>
-              <a class="card-link" href="#contact">בדקו זכאות עכשיו</a>
+              <a class="card-link" href="#contact">בדקו זכאות</a>
             </article>
             <article class="card reveal" style="--delay: 0.15s">
               <h3>בדיקת כדאיות מחזור</h3>
               <p>חישוב נקודת איזון בין קנסות לחיסכון בריבית.</p>
-              <a class="card-link" href="#contact">בדיקה ראשונית חינם</a>
+              <a class="card-link" href="#contact">בדיקה חינם</a>
             </article>
           </div>
         </div>
@@ -280,33 +299,34 @@
       <section class="services" id="services">
         <div class="container">
           <div class="section-title reveal">
+            <img src="images/services-consultation.jpeg" alt="שירותי ייעוץ משכנתאות" class="section-image" />
             <h2>מסלולי מומחיות לפי קהלי יעד</h2>
-            <p>בכל מסלול אנחנו יורדים לרזולוציות שמביאוֹת תוצאות.</p>
+            <p>בכל מסלול יורדים לרזולוציות שמייצרות תוצאה.</p>
           </div>
           <div class="cards-grid">
             <article class="card reveal">
               <h3>דירה ראשונה</h3>
-              <p>ליווי לזוגות צעירים, מינוף הון עצמי ותכנון צעד-אחר-צעד.</p>
+              <p>ליווי לזוגות צעירים, תכנון הון עצמי ותמהיל נכון.</p>
             </article>
             <article class="card reveal" style="--delay: 0.05s">
               <h3>מחיר למשתכן</h3>
-              <p>מומחיות במימון עד 90% והפרשי שמאות.</p>
+              <p>מומחיות במימון גבוה ובהפרשי שמאות.</p>
             </article>
             <article class="card reveal" style="--delay: 0.1s">
               <h3>מסורבי משכנתא</h3>
-              <p>פתרונות ל-BDI שלילי, הכנסה מורכבת וסירובי בנק.</p>
+              <p>פתרונות ל‑BDI שלילי, הכנסה מורכבת וסירובי בנק.</p>
             </article>
             <article class="card reveal" style="--delay: 0.15s">
               <h3>מחזור משכנתא</h3>
-              <p>בדיקת ריביות עדכנית וחיסכון משמעותי לאורך שנים.</p>
+              <p>בדיקת ריביות עדכנית וחיסכון משמעותי לאורך זמן.</p>
             </article>
             <article class="card reveal" style="--delay: 0.2s">
               <h3>הגיל השלישי</h3>
-              <p>משכנתא הפוכה ופנסיונית עם תכנון ירושה מדויק.</p>
+              <p>משכנתא הפוכה ופנסיונית עם תכנון ירושה נכון.</p>
             </article>
             <article class="card reveal" style="--delay: 0.25s">
               <h3>איחוד הלוואות</h3>
-              <p>המרת הלוואות קצרות למשכנתא ארוכת טווח בריבית נמוכה.</p>
+              <p>המרת הלוואות קצרות למשכנתא ארוכת טווח ובריבית נמוכה.</p>
             </article>
           </div>
         </div>
@@ -316,12 +336,12 @@
         <div class="container">
           <div class="section-title reveal">
             <h2>מבצרי תוכן: הידע שמייצר יתרון</h2>
-            <p>מדריכי עומק שמציבים אתכם צעד אחד לפני הבנק.</p>
+            <p>מדריכי עומק שעוזרים לקבל החלטות חכמות ובטוחות.</p>
           </div>
           <div class="hub-grid">
             <article class="hub-card reveal">
               <h3>המדריך המלא למשכנתא בישראל</h3>
-              <p>הבדלים בין מסלולים, הצמדות וסיכונים שכדאי להכיר.</p>
+              <p>הבדלים בין מסלולים, הצמדות וסיכונים שכדאי להכיר מראש.</p>
             </article>
             <article class="hub-card reveal" style="--delay: 0.05s">
               <h3>איך לקבל משכנתא עם BDI שלילי</h3>
@@ -329,7 +349,7 @@
             </article>
             <article class="hub-card reveal" style="--delay: 0.1s">
               <h3>מחזור משכנתא 2025</h3>
-              <p>מתי זה משתלם, ומהי נקודת האיזון שלכם.</p>
+              <p>מתי זה משתלם ומהי נקודת האיזון שלכם.</p>
             </article>
             <article class="hub-card reveal" style="--delay: 0.15s">
               <h3>משכנתא הפוכה – האם זה כדאי?</h3>
@@ -346,13 +366,13 @@
       <section class="roadmap" id="roadmap">
         <div class="container">
           <div class="section-title reveal">
-            <h2>מפת דרכים דיגיטלית 2025</h2>
-            <p>תוכנית חדירה מדויקת שמבוססת על נתונים וצרכים אמיתיים.</p>
+            <h2>מפת דרכים דיגיטלית 2026</h2>
+            <p>תוכנית צמיחה מדויקת שמבוססת על נתונים וצרכים אמיתיים.</p>
           </div>
           <div class="cards-grid">
             <article class="card reveal">
               <h3>שלב 1: תשתית וכלי ליבה</h3>
-              <p>בניית מחשבונים, דפי ליבה ומערך SEO חכם למילות מפתח.</p>
+              <p>בניית מחשבונים, דפי ליבה ומערך SEO חכם למילות מפתח מובילות.</p>
             </article>
             <article class="card reveal" style="--delay: 0.05s">
               <h3>שלב 2: תקיפת הזנב הארוך</h3>
@@ -367,32 +387,33 @@
       </section>
 
       <section class="cta-band">
-        <div class="container cta-band__content reveal">
+          <div class="container cta-band__content reveal">
           <div>
-            <h2>רוצים לדעת כמה תוכלו לחסוך?</h2>
-            <p>בדיקה ראשונית חינם עם מענה מקצועי ומדויק.</p>
+            <h2>רוצים לדעת כמה תוכלו לחסוך במשכנתא?</h2>
+            <p>בדיקה ראשונית חינם עם מענה מקצועי ומדויק תוך זמן קצר.</p>
           </div>
-          <a class="btn btn--primary" href="#contact">קבלו ייעוץ עכשיו</a>
+          <a class="btn btn--primary" href="#contact" data-popup-trigger>קבלו בדיקה חינם</a>
         </div>
       </section>
 
       <section class="testimonials section--light" id="testimonials">
         <div class="container">
           <div class="section-title reveal">
+            <img src="images/happy-clients.jpeg" alt="לקוחות מרוצים" class="section-image" />
             <h2>לקוחות מספרים</h2>
-            <p>אמון נבנה מהוכחות בשטח.</p>
+            <p>אמון נבנה מהוכחות בשטח ובתוצאות.</p>
           </div>
           <div class="cards-grid">
             <article class="card reveal">
-              <p class="quote">"חסכנו 67,000 ש"ח במשכנתא אחרי משא ומתן חכם."</p>
+              <p class="quote">"חסכנו 67,000 ש"ח במשכנתא אחרי משא ומתן חכם ומדויק."</p>
               <strong>משפחת לוי, חולון</strong>
             </article>
             <article class="card reveal" style="--delay: 0.05s">
-              <p class="quote">"קיבלנו אישור למרות סירוב קודם. מקצועיות ברמה אחרת."</p>
+              <p class="quote">"קיבלנו אישור למרות סירוב קודם. מקצועיות שמביאה תוצאות."</p>
               <strong>דנה ואיתי, ראשון לציון</strong>
             </article>
             <article class="card reveal" style="--delay: 0.1s">
-              <p class="quote">"ההליך היה ברור ושקוף, כולל לוח סילוקין מפורט."</p>
+              <p class="quote">"ההליך היה ברור ושקוף, עם לוח סילוקין מפורט."</p>
               <strong>משפחת אברהם, ירושלים</strong>
             </article>
           </div>
@@ -403,34 +424,34 @@
         <div class="container">
           <div class="section-title reveal">
             <h2>שאלות נפוצות</h2>
-            <p>תשובות קצרות לשאלות שמופיעות כמעט בכל תהליך.</p>
+            <p>תשובות קצרות לשאלות שחוזרות כמעט בכל תהליך.</p>
           </div>
           <div class="faq__grid">
             <details class="faq__item reveal">
               <summary>מה ההבדל בין שפיצר לקרן שווה?</summary>
               <p>
-                שפיצר מעניק החזר חודשי קבוע אך רוב התשלום הראשוני הוא ריבית. קרן שווה
-                מתחילה בהחזר גבוה יותר ופוחתת לאורך זמן, עם חיסכון משמעותי בריבית.
+                שפיצר מעניק החזר חודשי קבוע אך בתחילת הדרך רוב התשלום הוא ריבית. קרן שווה
+                מתחילה בהחזר גבוה יותר ופוחתת לאורך זמן, עם חיסכון בריבית.
               </p>
             </details>
             <details class="faq__item reveal" style="--delay: 0.05s">
               <summary>האם אפשר לקבל מימון של 90% במחיר למשתכן?</summary>
               <p>
                 כן. לפי ההפרש בין מחיר החוזה לשווי השוק ניתן להגיע למימון גבוה יותר.
-                נבחן את הנתונים יחד ונבנה את התמהיל המתאים.
+                נבחן את הנתונים יחד ונבנה תמהיל מתאים.
               </p>
             </details>
             <details class="faq__item reveal" style="--delay: 0.1s">
               <summary>מה עושים אם קיבלתי סירוב מהבנק?</summary>
               <p>
-                מבצעים אבחון סיבת הסירוב, בונים מסלול תיקון BDI או פתרון ביניים,
+                מאבחנים את סיבת הסירוב, בונים מסלול תיקון BDI או פתרון ביניים,
                 ומגישים מחדש לבנקים הרלוונטיים.
               </p>
             </details>
             <details class="faq__item reveal" style="--delay: 0.15s">
               <summary>כמה זמן לוקח תהליך משכנתא?</summary>
               <p>
-                בממוצע 3-5 שבועות, תלוי באיסוף מסמכים ובמהירות תגובת הבנקים.
+                בממוצע 3–5 שבועות, תלוי באיסוף המסמכים ובמהירות תגובת הבנקים.
               </p>
             </details>
           </div>
@@ -442,7 +463,7 @@
           <div class="contact__info reveal">
             <h2>דברו איתי</h2>
             <p>
-              ליווי אישי, ניתוח מקצועי והמלצות מדויקות - בשיחה אחת תדעו בדיוק איפה אתם עומדים.
+              ליווי אישי, ניתוח מקצועי והמלצות מדויקות — בשיחה אחת תדעו איפה אתם עומדים ומה הצעד הבא.
             </p>
             <div class="contact__details">
               <div>
@@ -461,10 +482,19 @@
           </div>
           <div class="contact__form reveal" style="--delay: 0.1s">
             <form class="lead-form" data-lead-form>
-              <label for="contact-name">שם מלא</label>
-              <input id="contact-name" name="name" type="text" required />
-              <label for="contact-phone">טלפון נייד</label>
-              <input id="contact-phone" name="phone" type="tel" required />
+              <label for="contact-name">שם מלא <span class="required-marker" aria-hidden="true">*</span></label>
+              <input id="contact-name" name="name" type="text" autocomplete="name" required />
+              <label for="contact-phone">טלפון נייד <span class="required-marker" aria-hidden="true">*</span></label>
+              <input
+                id="contact-phone"
+                name="phone"
+                type="tel"
+                inputmode="tel"
+                autocomplete="tel"
+                aria-describedby="contact-phone-hint"
+                required
+              />
+              <small id="contact-phone-hint" class="field-hint">מספר נייד ישראלי כולל קידומת 05</small>
               <label for="contact-message">איך נוכל לעזור?</label>
               <textarea id="contact-message" name="message" rows="4"></textarea>
               <label class="checkbox-row" for="contact-terms">
@@ -529,10 +559,19 @@
         <h3 id="popup-title">לייעוץ ראשוני השאירו פרטים</h3>
         <p>חיסכון מצטבר בתכנון משכנתא מתחיל בשיחה קצרה.</p>
         <form class="lead-form" data-lead-form>
-          <label for="popup-name">שם מלא</label>
-          <input id="popup-name" name="name" type="text" required />
-          <label for="popup-phone">טלפון נייד</label>
-          <input id="popup-phone" name="phone" type="tel" required />
+          <label for="popup-name">שם מלא <span class="required-marker" aria-hidden="true">*</span></label>
+          <input id="popup-name" name="name" type="text" autocomplete="name" required />
+          <label for="popup-phone">טלפון נייד <span class="required-marker" aria-hidden="true">*</span></label>
+          <input
+            id="popup-phone"
+            name="phone"
+            type="tel"
+            inputmode="tel"
+            autocomplete="tel"
+            aria-describedby="popup-phone-hint"
+            required
+          />
+          <small id="popup-phone-hint" class="field-hint">מספר נייד ישראלי כולל קידומת 05</small>
           <label class="checkbox-row" for="popup-terms">
             <input id="popup-terms" type="checkbox" name="terms" required />
             <span>
