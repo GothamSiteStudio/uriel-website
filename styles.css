@@ -1165,6 +1165,26 @@ body.a11y-contrast .site-footer {
   margin-bottom: 0.75rem;
 }
 
+.track-remove {
+  border: 1px solid rgba(155, 122, 58, 0.35);
+  background: #fff7ee;
+  color: #7a4d1a;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: background 0.2s ease, transform 0.2s ease;
+  font-family: inherit;
+}
+
+.track-remove:hover {
+  background: #ffe9d0;
+  transform: translateY(-1px);
+}
+
 .field-label {
   display: block;
   font-weight: 700;

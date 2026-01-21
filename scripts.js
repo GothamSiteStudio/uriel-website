@@ -270,6 +270,7 @@ if (popup) {
 const initMortgageCalculator = () => {
   const tracksList = document.getElementById("tracks-list");
   if (!tracksList) return;
+  const addTrackButton = document.getElementById("add-track");
 
   const trackTypeLabels = {
     "fixed-unlinked": "קבועה לא צמודה",
@@ -292,7 +293,7 @@ const initMortgageCalculator = () => {
 
   const defaultTracks = [
     {
-      name: "קבועה לא צמודה",
+      name: "אפשרות 1",
       trackType: "fixed-unlinked",
       amount: 500000,
       interest: 5.3,
@@ -301,6 +302,16 @@ const initMortgageCalculator = () => {
       repayment: "shpitzer",
     },
   ];
+
+  const refreshAutoNames = () => {
+    const cards = Array.from(document.querySelectorAll(".track-card"));
+    cards.forEach((card, index) => {
+      const input = card.querySelector(".track-name");
+      if (input?.dataset?.autoName === "true") {
+        input.value = `אפשרות ${index + 1}`;
+      }
+    });
+  };
 
   const addTrack = (prefill = {}) => {
     const defaults = {
@@ -316,6 +327,10 @@ const initMortgageCalculator = () => {
     };
 
     const data = { ...defaults, ...prefill };
+    const isAutoName = !data.name;
+    if (isAutoName) {
+      data.name = `אפשרות ${tracksList.children.length + 1}`;
+    }
     const card = document.createElement("article");
     card.className = "track-card";
     const uid = `track-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -336,8 +351,11 @@ const initMortgageCalculator = () => {
       <header class="track-card-header">
         <div>
           <label class="field-label" for="${ids.name}">שם המסלול</label>
-          <input id="${ids.name}" type="text" class="track-name" placeholder="לדוגמה: קבועה לא צמודה" value="${data.name || ""}">
+          <input id="${ids.name}" type="text" class="track-name" placeholder="לדוגמה: אפשרות 1" value="${data.name || ""}" data-auto-name="${isAutoName ? "true" : "false"}">
         </div>
+        <button type="button" class="track-remove" aria-label="הסרת מסלול">
+          <i class="fas fa-trash"></i> הסר
+        </button>
       </header>
       <div class="fields-grid">
         <div class="field">
@@ -395,6 +413,21 @@ const initMortgageCalculator = () => {
     tracksList.appendChild(card);
     const amountInput = card.querySelector(".amount");
     attachNumberFormatting(amountInput);
+    const removeButton = card.querySelector(".track-remove");
+    removeButton.addEventListener("click", () => {
+      card.remove();
+      refreshAutoNames();
+    });
+    const nameInput = card.querySelector(".track-name");
+    nameInput.addEventListener("input", () => {
+      nameInput.dataset.autoName = "false";
+    });
+    nameInput.addEventListener("blur", () => {
+      if (!nameInput.value.trim()) {
+        nameInput.dataset.autoName = "true";
+        refreshAutoNames();
+      }
+    });
   };
 
   const collectTracks = () => {
@@ -408,7 +441,7 @@ const initMortgageCalculator = () => {
       const repayment = card.querySelector(".repayment").value;
       const trackType = card.querySelector(".track-type").value;
       const nameInput = card.querySelector(".track-name").value.trim();
-      const name = nameInput || `מסלול ${idx + 1}`;
+      const name = nameInput || `אפשרות ${idx + 1}`;
       const rateChangeMonths = parseInt(card.querySelector(".rate-change-months").value, 10);
       const rateChangeRate = parseFloat(card.querySelector(".rate-change-rate").value);
 
@@ -749,6 +782,9 @@ const initMortgageCalculator = () => {
   };
 
   window.calculateAll = calculateAll;
+  if (addTrackButton) {
+    addTrackButton.addEventListener("click", () => addTrack());
+  }
   seedTracks();
 };
 
